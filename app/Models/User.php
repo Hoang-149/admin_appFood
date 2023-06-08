@@ -24,8 +24,6 @@ class User extends Authenticatable
         'email',
         'image',
         'password',
-        'address',
-        'phone',
         'dayofbirth',
         'status',
         'role'
@@ -37,7 +35,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
         'remember_token',
     ];
 
@@ -53,5 +50,9 @@ class User extends Authenticatable
     // public function cuisine()
     // {
     //     return $this->hasMany(Cuisine::class);
+    // }
+    // public function post()
+    // {
+    //     return $this->hasMany(Post::class, 'user_id', 'id');
     // }
 }

@@ -48,10 +48,11 @@
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Difficulty</label>
                             <select class="form-select" name="difficulty" aria-label="Default select example">
-                                <option value="Easy" {{ $cuisine->difficulty == 'Easy' ? 'selected' : '' }}>Easy</option>
-                                <option value="Medium" {{ $cuisine->difficulty == 'Medium' ? 'selected' : '' }}>Medium
+                                <option value="Dễ" {{ $cuisine->difficulty == 'Dễ' ? 'selected' : '' }}>Dễ</option>
+                                <option value="Trung bình" {{ $cuisine->difficulty == 'Trung bình' ? 'selected' : '' }}>
+                                    Trung bình
                                 </option>
-                                <option value="Hard" {{ $cuisine->difficulty == 'Hard' ? 'selected' : '' }}>Hard</option>
+                                <option value="Khó" {{ $cuisine->difficulty == 'Khó' ? 'selected' : '' }}>Khó</option>
                             </select>
                         </div>
                         <div class="mb-3">

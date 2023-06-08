@@ -130,7 +130,7 @@ class CategoryController extends Controller
 
             $path = 'public/uploads/cate/' . $crCate->image;
 
-            if (file_exists($path)) {
+            if (file_exists($path) && $crCate->image != null) {
                 unlink($path);
             }
 

@@ -15,7 +15,7 @@
                 </form>
             </div>
             <div class="card">
-                <div class="card-header fw-bold">List User</div>
+                <div class="card-header fw-bold">List Categories</div>
 
                 <div class="card-body">
                     @if (session('status'))

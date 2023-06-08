@@ -20,12 +20,6 @@ class CreateCuisineTable extends Migration
             $table->string('user_id');
             $table->string('image')->nullable();
             $table->integer('duration')->nullable();
-            // $table->unsignedBigInteger('category_id');
-            // $table->foreign('category_id')->references('id')->on('category')->onDelete('CASCADE')
-            //     ->onUpdate('CASCADE');
-            // $table->unsignedBigInteger('user_id');
-            // $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE')
-            //     ->onUpdate('CASCADE');
             $table->string('difficulty')->nullable();
             $table->text('ingredients')->nullable();
             $table->text('steps')->nullable();

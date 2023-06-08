@@ -39,6 +39,9 @@
                         <tbody>
                             @php $i = 1; @endphp
                             @foreach ($users as $user)
+                                @php
+                                    $cuisineCount = $usersWithCuisineCount[$loop->index];
+                                @endphp
                                 <tr>
                                     <th scope="row">{{ $i++ }}</th>
                                     <td><img class="rounded-circle"
@@ -47,7 +50,7 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->role == '1' ? 'Admin' : 'User' }}</td>
-                                    <td>0</td>
+                                    <td>{{ $cuisineCount->cuisine_count }}</td>
 
                                     <td>
                                         <p class="{{ $user->status == '0' ? 'text-success' : 'text-danger' }}">

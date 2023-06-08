@@ -31,7 +31,6 @@
                                 <th scope="col">Name</th>
                                 <th scope="col">Image</th>
                                 <th scope="col">Duration</th>
-                                <th scope="col">View</th>
                                 <th scope="col">Like</th>
                                 <th scope="col">Author</th>
                                 <th scope="col">Status</th>
@@ -40,18 +39,26 @@
                         </thead>
                         <tbody>
                             @php $i = 1; @endphp
-                            @foreach ($cuisine as $item)
+                            @foreach ($likes as $item)
                                 <tr>
                                     <th scope="row">{{ $i++ }}</th>
                                     <td>{{ $item->name }}</td>
                                     <td><img src="{{ asset('public/uploads/cuisine/' . $item->image) }}" alt=""
                                             width="100"></td>
                                     <td>{{ $item->duration }} mins</td>
-                                    <td>0</td>
-                                    <td>0</td>
+                                    <td>{{ $item->favourite_count }}</td>
+
+
+
                                     <td>{{ $item->user->name }}</td>
 
-                                    <td>{{ $item->status == '0' ? 'Pending' : 'Approved' }}</td>
+                                    <td><?php if ($item->status == '0') {
+                                        echo 'Pending';
+                                    } elseif ($item->status == '1') {
+                                        echo 'Approved';
+                                    } else {
+                                        echo 'Disapproved';
+                                    } ?></td>
 
                                     <td>
                                         <div class="d-flex">

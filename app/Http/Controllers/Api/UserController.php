@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -90,16 +91,48 @@ class UserController extends Controller
             "message" => "Đăng Xuất Thành Công!"
         ]);
     }
-
-    public function user()
-
+    public function show($id)
     {
-        if (auth('sanctum')->check()) {
-            $user = auth('sanctum')->user();
+        $usercuisine = User::where('id', $id)->get();
+        return response()->json([
+            'status' => 200,
+            'usercuisine' => $usercuisine,
+        ]);
+    }
 
+    public function update(Request $request, $id)
+    {
+        $findUser = User::find($id);
+
+        if ($findUser) {
+            $findUser->name = $request->input('name');
+            $findUser->email = $request->input('email');
+            $findUser->phone = $request->input('phone');
+
+            if ($request->hasFile('img')) {
+
+                $path = $findUser->image;
+
+                if (File::exists($path)) {
+                    File::delete($path);
+                }
+                $file = $request->file('img');
+                $extension = $file->getClientOriginalExtension();
+                $filename = time() + 1 . '.' . $extension;
+                $file->move('public/uploads/users/', $filename);
+                $findUser->image = $filename;
+            }
+
+            $findUser->update();
             return response()->json([
                 'status' => 200,
-                "user" => $user
+                'user' => $findUser,
+                'message' => 'Cập Nhật Người dùng thành công',
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Cập Nhật Người dùng không thành công',
             ]);
         }
     }

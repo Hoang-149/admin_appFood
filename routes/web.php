@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\CuisineController;
-use App\Http\Controllers\Admin\FoodController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ExportController;
+use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +30,9 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('/export-pdf', [ExportController::class, 'exportPDF'])->name('export.pdf');
+
+
 // Admin
 Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
@@ -48,4 +55,24 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/cuisine/edit/{id}', [CuisineController::class, 'edit'])->name('cuisine.edit');
     Route::post('/cuisine/update/{id}', [CuisineController::class, 'update'])->name('cuisine.update');
     Route::delete('/cuisine/{id}', [CuisineController::class, 'destroy'])->name('cuisine.destroy');
+
+
+    Route::get('/banner', [BannerController::class, 'index'])->name('banner.index');
+    Route::get('/banner/create', [BannerController::class, 'create'])->name('banner.create');
+    Route::post('/banner/store', [BannerController::class, 'store'])->name('banner.store');
+    Route::get('/banner/edit/{id}', [BannerController::class, 'edit'])->name('banner.edit');
+    Route::post('/banner/update/{id}', [BannerController::class, 'update'])->name('banner.update');
+    Route::delete('/banner/{id}', [BannerController::class, 'destroy'])->name('banner.destroy');
+
+    Route::get('/post', [PostController::class, 'index'])->name('post.index');
+    // Route::get('/post/create', [PostController::class, 'create'])->name('post.create');
+    // Route::post('/post/store', [PostController::class, 'store'])->name('post.store');
+    Route::get('/post/edit/{id}', [PostController::class, 'edit'])->name('post.edit');
+    Route::post('/post/update/{id}', [PostController::class, 'update'])->name('post.update');
+    Route::delete('/post/{id}', [PostController::class, 'destroy'])->name('post.destroy');
+
+    Route::get('/comment', [CommentController::class, 'index'])->name('comment.index');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
+    Route::get('/cuisine-statistics', [CuisineController::class, 'statistics'])->name('cuisine.statistics');
 });

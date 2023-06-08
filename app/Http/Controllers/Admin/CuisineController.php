@@ -6,8 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Cuisine;
 use App\Models\User;
+use App\Notifications\ProductApprovedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
+
 
 class CuisineController extends Controller
 {
@@ -16,22 +21,48 @@ class CuisineController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    // public function statistics()
+    // {
+    //     $cuisineData = DB::table('cuisine')
+    //         ->select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as count'))
+    //         ->groupBy('month')
+    //         ->get();
+
+    //     $months = [];
+    //     $counts = [];
+
+    //     foreach ($cuisineData as $data) {
+    //         $months[] = date('F', mktime(0, 0, 0, $data->month, 1));
+    //         $counts[] = $data->count;
+    //     }
+
+    //     return response()->json(['months' => $months, 'counts' => $counts]);
+    // }
+
     public function index(Request $request)
     {
-        $cuisine = Cuisine::where([
-            ['name', '!=', Null],
-            [function ($query) use ($request) {
-                if (($term = $request->term)) {
-                    $query->orWhere('name', 'LIKE', '%' . $term . '%')->get();
-                }
-            }]
-        ])
-            ->orderBy('id', 'asc')
-            ->paginate(10);
+        // $cuisine = Cuisine::where([
+        //     ['name', '!=', Null],
+        //     [function ($query) use ($request) {
+        //         if (($term = $request->term)) {
+        //             $query->orWhere('name', 'LIKE', '%' . $term . '%')->get();
+        //         }
+        //     }]
+        // ])
+        //     ->orderBy('id', 'asc')
+        //     ->paginate(10);
 
         // $user = User::find()
 
-        return view('admin.cuisine.index', compact('cuisine'))->with('i', (request()->input('page', 1) - 1) * 5);
+        // $likes = DB::table('favourites')
+        //     ->select('id_cuisine', DB::raw('count(*) as total_likes'))
+        //     ->groupBy('id_cuisine')
+        //     ->get();
+
+        $likes = Cuisine::withCount('favourite')->get();
+
+        return view('admin.cuisine.index', compact('likes'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -41,7 +72,7 @@ class CuisineController extends Controller
      */
     public function create()
     {
-        $cate = Category::orderBy('id', 'DESC')->get();
+        $cate = Category::where('status', '0')->get();
         return view('admin.cuisine.create')->with(compact('cate'));
     }
 
@@ -161,7 +192,7 @@ class CuisineController extends Controller
         if ($get_image) {
             $path = 'public/uploads/cuisine/' . $crCuisine->image;
 
-            if (file_exists($path)) {
+            if (file_exists($path) && $crCuisine->image != null) {
                 unlink($path);
             }
             $path = 'public/uploads/cuisine/';
@@ -172,7 +203,7 @@ class CuisineController extends Controller
 
             $crCuisine->image = $new_image;
         }
-        $crCuisine->user_id = Auth::user()->id;
+        // $crCuisine->user_id = Auth::user()->id;
         $crCuisine->category_id = $data['category'];
         $crCuisine->duration = $data['duration'];
         $crCuisine->difficulty = $data['difficulty'];
@@ -181,7 +212,29 @@ class CuisineController extends Controller
         $crCuisine->websiteURL = $data['websiteURL'];
         $crCuisine->youtubeURL = $data['youtubeURL'];
         $crCuisine->status = $data['status'];
+
         $crCuisine->save();
+
+        if ($data['status'] == 1) {
+
+            $user = $crCuisine->user; // Assuming the user relationship is defined as "user"
+            $user->notify(new ProductApprovedNotification($crCuisine));
+        }
+
+
+        // if ($data['status'] == 1) {
+        //     // Emit real-time event to the user's app
+        //     Broadcast::socket('app')
+        //         ->to('user-channel-' . $crCuisine->user_id)
+        //         ->emit('productApproved', [
+        //             'productId' => $crCuisine->id,
+        //             'message' => 'Your product has been approved!',
+        //             // Include any other necessary details
+        //         ]);
+
+        //     return response()->json(['message' => 'Product approved']);
+        // }
+
 
         return redirect()->back()->with('status', 'Cập nhật món ăn thành công');
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,6 +19,14 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
+
+
+        $usersWithCuisineCount = User::leftJoin('cuisine', 'users.id', '=', 'cuisine.user_id')
+            ->select('users.id', 'users.name', DB::raw('COUNT(cuisine.id) as cuisine_count'))
+            ->groupBy('users.id', 'users.name')
+            ->get();
+
+
         $users = User::where([
             ['name', '!=', Null],
             [function ($query) use ($request) {
@@ -28,7 +37,8 @@ class UserController extends Controller
         ])
             ->orderBy('id', 'asc')
             ->paginate(10);
-        return view('admin.users.index', compact('users'))->with('i', (request()->input('page', 1) - 1) * 5);
+
+        return view('admin.users.index', compact('users', 'usersWithCuisineCount'))->with('i', (request()->input('page', 1) - 1) * 5);
 
         // $users = User::all();
         // return view('admin.users.index', compact('users'));
@@ -58,7 +68,6 @@ class UserController extends Controller
                 'name' => 'required|max:255',
                 'image' => 'required|image|mimes:jpg,png,gif,svg|max:2048|dimensions:min_width=100,min_height=100',
                 'email' => 'required|email|max:255|unique:users,email',
-                'address' => 'max:255',
                 'status' => 'required',
                 'role' => 'required',
             ],
@@ -82,7 +91,6 @@ class UserController extends Controller
         $createUser->image = $new_image;
 
         $createUser->email = $data['email'];
-        $createUser->address = $data['address'];
         $createUser->password = Hash::make('password123');
         $createUser->status = $data['status'];
         $createUser->role = $data['role'];
@@ -128,7 +136,6 @@ class UserController extends Controller
                 'name' => 'required|max:255',
                 // 'image' => 'required',
                 'email' => 'required|email|max:255',
-                'address' => 'max:255',
                 'status' => 'required',
                 'role' => 'required',
             ],
@@ -148,7 +155,7 @@ class UserController extends Controller
 
             $path = 'public/uploads/users/' . $createUser->image;
 
-            if (file_exists($path)) {
+            if (file_exists($path) && $createUser->image != null) {
                 unlink($path);
             }
 
@@ -162,7 +169,6 @@ class UserController extends Controller
         }
 
         $createUser->email = $data['email'];
-        $createUser->address = $data['address'];
         $createUser->password = Hash::make('password123');
         $createUser->status = $data['status'];
         $createUser->role = $data['role'];

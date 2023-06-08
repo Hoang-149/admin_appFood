@@ -49,9 +49,9 @@
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Difficulty</label>
                             <select class="form-select" name="difficulty" aria-label="Default select example">
-                                <option value="Easy">Easy</option>
-                                <option value="Medium">Medium</option>
-                                <option value="Hard">Hard</option>
+                                <option value="Dễ">Dễ</option>
+                                <option value="Trung bình">Trung bình</option>
+                                <option value="Khó">Khó</option>
                             </select>
                         </div>
                         <div class="mb-3">
