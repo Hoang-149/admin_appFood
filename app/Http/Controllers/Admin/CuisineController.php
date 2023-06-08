@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Cuisine;
+use App\Models\Notify;
 use App\Models\User;
 use App\Notifications\ProductApprovedNotification;
 use Illuminate\Http\Request;
@@ -21,24 +22,6 @@ class CuisineController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
-    // public function statistics()
-    // {
-    //     $cuisineData = DB::table('cuisine')
-    //         ->select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as count'))
-    //         ->groupBy('month')
-    //         ->get();
-
-    //     $months = [];
-    //     $counts = [];
-
-    //     foreach ($cuisineData as $data) {
-    //         $months[] = date('F', mktime(0, 0, 0, $data->month, 1));
-    //         $counts[] = $data->count;
-    //     }
-
-    //     return response()->json(['months' => $months, 'counts' => $counts]);
-    // }
 
     public function index(Request $request)
     {
@@ -216,6 +199,14 @@ class CuisineController extends Controller
         $crCuisine->save();
 
         if ($data['status'] == 1) {
+
+            $crNotify = new Notify();
+            $crNotify->id_user = $crCuisine->user_id;
+            $crNotify->id_cuisine = $crCuisine->id;
+            $crNotify->content = $data['name'] . ' đã được chấp thuận bởi Admin';
+            $crNotify->status = '1';
+
+            $crNotify->save();
 
             $user = $crCuisine->user; // Assuming the user relationship is defined as "user"
             $user->notify(new ProductApprovedNotification($crCuisine));

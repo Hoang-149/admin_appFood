@@ -268,31 +268,34 @@
 
     <script>
         // Định nghĩa biến JavaScript từ dữ liệu PHP
-        // var usersData = @json($users);
+        var usersData = @json($users);
 
-        // // Xử lý dữ liệu và vẽ biểu đồ
-        // var ctx = document.getElementById('myAreaChart').getContext('2d');
-        // var chart = new Chart(ctx, {
-        //     type: 'area', // Chỉnh sửa thành 'area'
-        //     data: {
-        //         labels: usersData.map(data => data.month), // Nhãn của trục x
-        //         datasets: [{
-        //             label: 'Users',
-        //             data: usersData.map(data => data.count), // Dữ liệu của trục y
-        //             backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        //             borderColor: 'rgba(75, 192, 192, 1)',
-        //             borderWidth: 1
-        //         }]
-        //     },
-        //     options: {
-        //         scales: {
-        //             y: {
-        //                 beginAtZero: true
-        //             }
-        //         }
-        //     }
-        // });
+        // Xử lý dữ liệu và vẽ biểu đồ
+        var ctx = document.getElementById('myAreaChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'bar', // Loại biểu đồ cột
+            data: {
+                labels: usersData.map(data => data.month), // Nhãn của trục x
+                datasets: [{
+                    label: 'Cuisines',
+                    data: usersData.map(data => data.count), // Dữ liệu của trục y
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
 
+
+    <script>
         // Định nghĩa biến JavaScript từ dữ liệu PHP
         var cuisinesData = @json($cuisines);
 
@@ -305,8 +308,8 @@
                 datasets: [{
                     label: 'Cuisines',
                     data: cuisinesData.map(data => data.count), // Dữ liệu của trục y
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: '#ffc107',
+                    borderColor: '#ffc107',
                     borderWidth: 1
                 }]
             },

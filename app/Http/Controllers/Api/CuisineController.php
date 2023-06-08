@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Cuisine;
 use App\Models\Favourite;
+use App\Models\Notify;
 use App\Notifications\ProductApprovedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,12 +24,35 @@ class CuisineController extends Controller
 
     public function approve($id)
     {
-        $cuisine = Cuisine::findOrFail($id);
-
+        $notify = Notify::where('id_user', $id)->orderBy('id', 'desc')->get();
         return response()->json([
             'status' => 200,
-            'status' => $cuisine->status,
+            'notify' => $notify,
         ]);
+    }
+
+    public function updateStatus(Request $request, $id_user)
+    {
+        try {
+            // Lấy danh sách tất cả sản phẩm
+            $notify = Notify::where('id_user', $id_user)->get();
+
+            // Cập nhật trạng thái của tất cả sản phẩm thành 0
+            foreach ($notify as $notifies) {
+                $notifies->status = '0';
+                $notifies->save();
+            }
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Cập nhật trạng thái thành công',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Có lỗi xảy ra khi cập nhật trạng thái thông báo',
+            ]);
+        }
     }
 
     public function index()

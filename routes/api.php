@@ -72,3 +72,4 @@ Route::post('update-comment-reply/{id}', [CommentController::class, 'updateReply
 Route::delete('delete-comment-reply/{id}', [CommentController::class, 'destroyReply']);
 
 Route::get('cuisine-status/{id}', [CuisineController::class, 'approve']);
+Route::put('users/{id_user}/notify/update-status', [CuisineController::class, 'updateStatus']);
