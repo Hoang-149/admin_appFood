@@ -143,6 +143,7 @@ class CommentController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Bình luận Thành Công',
+            'comment' => $comment
         ]);
         // } else {
         //     return response()->json([
