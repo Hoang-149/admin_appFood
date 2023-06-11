@@ -19,14 +19,6 @@ class Cuisine extends Model
     protected $primarykey  = 'id';
     protected $table = 'cuisine';
 
-    // protected static function booted()
-    // {
-    //     static::updating(function ($cuisine) {
-    //         if ($cuisine->isDirty('status') && $cuisine->status === '1' && $cuisine->getOriginal('status') === '0') {
-    //             $cuisine->user->notify(new ProductApprovedNotification($cuisine));
-    //         }
-    //     });
-    // }
 
     protected $with = ['user', 'favourite'];
 

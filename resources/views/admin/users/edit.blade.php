@@ -43,6 +43,11 @@
                                 placeholder="Email...">
                         </div>
                         <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Phone</label>
+                            <input type="text" value="{{ $user->phone }}" name="phone" class="form-control"
+                                placeholder="Phone Number...">
+                        </div>
+                        {{-- <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Role</label>
                             <select class="form-select" name="role" aria-label="Default select example">
 
@@ -54,7 +59,7 @@
                                     <option selected value="1">Admin</option>
                                 @endif
                             </select>
-                        </div>
+                        </div> --}}
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Status</label>
                             <select class="form-select" name="status" aria-label="Default select example">

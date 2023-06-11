@@ -80,6 +80,9 @@
 
                 </div>
             </div>
+            <div class="pb-3 d-flex justify-content-end">
+                <a href="{{ route('exportcuisine.pdf') }}" class="btn btn-danger float-right">EXPORT</a>
+            </div>
         </div>
     </div>
 @endsection

@@ -31,6 +31,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/export-pdf', [ExportController::class, 'exportPDF'])->name('export.pdf');
+Route::get('/export-cuisine-pdf', [ExportController::class, 'exportCuisinePDF'])->name('exportcuisine.pdf');
 
 
 // Admin

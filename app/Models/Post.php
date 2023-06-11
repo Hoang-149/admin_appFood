@@ -26,7 +26,7 @@ class Post extends Model
     }
     public function cuisine()
     {
-        return $this->belongsTo(Cuisine::class, 'id_cuisine', 'id');
+        return $this->belongsTo(Cuisine::class, 'id_cuisine', 'id')->withDefault();
     }
     // public function comment()
     // {

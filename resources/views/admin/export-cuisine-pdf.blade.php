@@ -14,11 +14,11 @@
         <thead>
             <tr>
                 <th>STT</th>
-                <th style="width: 120px;">Name</th>
-                <th style="width: 100px;">Email</th>
-                <th style="width: 100px;padding-left: 50px">Role</th>
-                <th style="width: 100px;">Cuisines</th>
-                {{-- <th>Đã nạp</th> --}}
+                <th style="text-align:left; padding-left: 50px">Name</th>
+                <th style="">Duration</th>
+                <th style="padding-right:50px">Author</th>
+                <th scope="">Status</th>
+
             </tr>
         </thead>
         <tbody>
@@ -29,20 +29,25 @@
             //     $totalSodu += $post->Sodu; // Cộng dồn giá trị Sodu
             // }
             ?>
-            @foreach ($posts as $key => $post)
+            @foreach ($cuisines as $key => $post)
                 @php
                     $stt = $key + 1;
                 @endphp
-                @php
+                {{-- @php
                     $cuisineCount = $usersWithCuisineCount[$loop->index];
-                @endphp
+                @endphp --}}
                 <tr>
                     <td style="">{{ $stt }}</td>
-                    <td style="padding-left: 50px">{{ $post->name }}</td>
-                    <td style="padding-left: 50px">{{ $post->email }}</td>
-                    <td style="padding-left: 100px">{{ $post->role == '1' ? 'Admin' : 'User' }}</td>
-                    <td style="padding-left: 50px">{{ $cuisineCount->cuisine_count }}</td>
-
+                    <td style="">{{ $post->name }}</td>
+                    <td style="">{{ $post->duration }}</td>
+                    <td style="padding-right:50px">{{ $post->user->name }}</td>
+                    <td><?php if ($post->status == '0') {
+                        echo 'Pending';
+                    } elseif ($post->status == '1') {
+                        echo 'Approved';
+                    } else {
+                        echo 'Disapproved';
+                    } ?></td>
                     {{-- <td>{!! \App\Helpers\Helper::price($post->Sodu) !!}đ</td> --}}
 
                 </tr>

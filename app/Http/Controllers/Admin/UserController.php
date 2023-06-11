@@ -137,7 +137,8 @@ class UserController extends Controller
                 // 'image' => 'required',
                 'email' => 'required|email|max:255',
                 'status' => 'required',
-                'role' => 'required',
+                'phone' => 'required',
+                // 'role' => 'required',
             ],
             [
                 'name.required' => 'Tên người dùng phải có nhé',
@@ -169,9 +170,10 @@ class UserController extends Controller
         }
 
         $createUser->email = $data['email'];
+        $createUser->phone = $data['phone'];
         $createUser->password = Hash::make('password123');
         $createUser->status = $data['status'];
-        $createUser->role = $data['role'];
+        // $createUser->role = $data['role'];
         $createUser->save();
 
         return redirect()->back()->with('status', 'Cập nhật người dùng thành công');

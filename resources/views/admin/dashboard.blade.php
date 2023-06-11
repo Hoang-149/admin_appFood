@@ -44,7 +44,7 @@
                     color: rgba(0, 0, 0, 0.15);
                   "></i>
                 </div>
-                <a href="{{ route('export.pdf') }}" class="small-box-footer"
+                <a href="{{ route('users.index') }}" class="small-box-footer"
                     style="
                   background-color: rgba(0, 0, 0, 0.1);
                   color: rgba(255, 255, 255, 0.8);
@@ -277,7 +277,7 @@
             data: {
                 labels: usersData.map(data => data.month), // Nhãn của trục x
                 datasets: [{
-                    label: 'Cuisines',
+                    label: 'Users',
                     data: usersData.map(data => data.count), // Dữ liệu của trục y
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     borderColor: 'rgba(75, 192, 192, 1)',

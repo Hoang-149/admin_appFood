@@ -57,12 +57,18 @@ class CuisineController extends Controller
 
     public function index()
     {
-        $cuisine = Cuisine::withCount('favourite')->where('status', '1')->limit(4)->orderBy('id', 'desc')->get();
+        $cuisine = Cuisine::withCount('favourite')
+            ->where('status', '1')
+            ->orderBy('favourite_count', 'desc')
+            ->limit(4)
+            ->get();
+
         return response()->json([
             'status' => 200,
             'cuisine' => $cuisine,
         ]);
     }
+
 
     public function indexAll()
     {

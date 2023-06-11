@@ -25,6 +25,8 @@ class PostController extends Controller
         ])
             ->orderBy('id', 'asc')
             ->paginate(10);
+
+        // dd($posts);
         return view('admin.posts.index', compact('posts'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
